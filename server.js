@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = express()
 
 app.use(express.urlencoded({extended: false}))
+app.use(express.json())
 app.use(cors())
 
 const user = [
@@ -42,10 +43,20 @@ app.get('/users', (req, res) => {
 //write
 app.post('/users', (req, res) => {
     const {userid,userpw,username,gender} = req.body
-    const response = { userid, userpw, username, gender}
+    const response = { idx: user[user.length -1].idx+1, userid, userpw, username, gender}
     console.log("resopnse : ", response)
     user.push(response)
-    console.log(req.body)
+    console.log("req", req.body)
+    res.json(response)
+})
+
+//view
+app.get("/users/:idx", (req,res) =>{
+    const { idx } = req.params
+    const [response] = user.filter((v) => v.idx === parseInt(idx))
+    console.log("req.params", req.params)
+    console.log("req.params.id", req.params.id)
+    console.log("response", response)
     res.json(response)
 })
 
@@ -53,8 +64,3 @@ app.listen (3000, () => {
     console.log('start of backend')
 })
 
-//view
-app.get("/users/:id", (req,res) =>{
-    console.log(req.params)
-    res.json(user)
-})
