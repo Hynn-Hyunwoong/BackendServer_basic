@@ -1,10 +1,10 @@
 const express = require('express')
 const app = express()
 
-app.set('view engine', 'html')
-
-
 app.get('/users', (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*")
+    res.setHeader("Access-Control-Allow-Methods","POST,GET,OPTIONS, DELETE")
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type")
     res.send("GET /users")
 })
 
